@@ -1,6 +1,8 @@
 package ArchipelagoMW;
 
+import ArchipelagoMW.patches.RewardItemPatch;
 import ArchipelagoMW.ui.RewardMenu.BossRelicRewardScreen;
+import ArchipelagoMW.ui.RewardMenu.MaxHPreward;
 import ArchipelagoMW.ui.topPannel.ArchipelagoIcon;
 import ArchipelagoMW.util.IDCheckDontTouchPls;
 import ArchipelagoMW.util.TextureLoader;
@@ -18,6 +20,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.UIStrings;
+import com.megacrit.cardcrawl.rewards.RewardSave;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -176,6 +179,15 @@ public class ArchipelagoMW implements
 
         BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
         BaseMod.addTopPanelItem(new ArchipelagoIcon());
+
+        BaseMod.registerCustomReward(
+                RewardItemPatch.RewardType.ARCHIPELAGO_MAX_HP,
+                (rewardSave) -> { // this handles what to do when this quest type is loaded.
+                    return new MaxHPreward("dummy player", "dummy location");
+                },
+                (customReward) -> { // this handles what to do when this quest type is saved.
+                    return new RewardSave(customReward.type.toString(), null, ((MaxHPreward)customReward).amount, 0);
+                });
         //Settings.isInfo = true;
         //Settings.isDebug = true;
 

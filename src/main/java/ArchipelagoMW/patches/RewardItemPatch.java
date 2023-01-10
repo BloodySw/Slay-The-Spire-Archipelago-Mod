@@ -29,6 +29,14 @@ public class RewardItemPatch {
         public static RewardItem.RewardType BOSS_RELIC;
         @SpireEnum
         public static RewardItem.RewardType ARCHIPELAGO_LOCATION;
+        @SpireEnum
+        public static RewardItem.RewardType ARCHIPELAGO_REST_HEAL;
+        @SpireEnum
+        public static RewardItem.RewardType ARCHIPELAGO_MAX_HP;
+        @SpireEnum
+        public static RewardItem.RewardType ARCHIPELAGO_CARD_REMOVAL;
+        @SpireEnum
+        public static RewardItem.RewardType ARCHIPELAGO_CARD_UPGRADE;
     }
 
     @SpirePatch(clz = RewardItem.class, method = SpirePatch.CLASS)

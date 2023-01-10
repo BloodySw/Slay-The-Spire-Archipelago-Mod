@@ -73,6 +73,12 @@ public class ArchipelagoRewardScreen {
     public static boolean apReward = false;
     public static boolean apRareReward = false;
 
+    final private static long  cardDrawID = 8000L;
+    final private static long  rareCardDrawID = 8001L;
+    final private static long  relicID = 8002L;
+    final private static long  bossRelicID = 8003L;
+    final private static long  maxHealthID = 8004L;
+
     private static OrthographicCamera camera = null;
 
     public static class Enum {
@@ -173,7 +179,6 @@ public class ArchipelagoRewardScreen {
         rewardsQueued = 0;
         AbstractDungeon.player.releaseCard();
 
-        logger.info("current map location y: " + AbstractDungeon.getCurrMapNode().y);
         if (AbstractDungeon.getCurrMapNode().y == -1) {
             AbstractDungeon.nextRoom = null; // this is necessary to make the first nodes available in new act (dunno how else to force it)
         }
@@ -203,6 +208,16 @@ public class ArchipelagoRewardScreen {
         for (int i = index; i < items.size(); ++i) {
             addReward(items.get(i));
         }
+        AddFakeItems();
+    }
+    public static void AddFakeItems(){
+        NetworkItem networkItem = new NetworkItem();
+        networkItem.itemName = "max HP reward";
+        networkItem.itemID = 8004L;
+        networkItem.playerName = "PotatoPlayer";
+        networkItem.locationName = "TomatoLocation";
+        addReward(networkItem);
+
     }
 
     public static void close() {
@@ -418,7 +433,7 @@ public class ArchipelagoRewardScreen {
         long itemID = networkItem.itemID;
         String location = networkItem.locationName;
         String player = networkItem.playerName;
-        if (itemID == 8000L) { //card draw
+        if (itemID == cardDrawID) { //card draw
             apReward = true;
             ArrayList<AbstractCard> cards = AbstractDungeon.getRewardCards();
             apReward = false;
@@ -429,7 +444,7 @@ public class ArchipelagoRewardScreen {
             RewardItemPatch.CustomFields.apReward.set(reward, true);
             reward.text = "Card Draw [] NL " + player + " [] NL " + location;
             addReward(reward);
-        } else if (itemID == 8001L) { //rare card draw
+        } else if (itemID == rareCardDrawID) { //rare card draw
             apRareReward = true;
             ArrayList<AbstractCard> rareCards = AbstractDungeon.getRewardCards();
             apRareReward = false;
@@ -447,13 +462,13 @@ public class ArchipelagoRewardScreen {
 
             reward.text = "Rare Card Draw [] NL " + player + " [] NL " + location;
             addReward(reward);
-        } else if (itemID == 8002L) { // Relic
+        } else if (itemID == relicID) { // Relic
             AbstractRelic relic = AbstractDungeon.returnRandomRelic(getRandomRelicTier());
             RewardItem reward = new RewardItem(relic);
             reward.text = "Relic [] NL " + player + " [] NL " + location;
             RewardItemPatch.CustomFields.apReward.set(reward, true);
             addReward(reward);
-        } else if (itemID == 8003L) { // Boss Relic
+        } else if (itemID == bossRelicID) { // Boss Relic
             ArrayList<AbstractRelic> bossRelics = new ArrayList<AbstractRelic>() {{
                 add(AbstractDungeon.returnRandomRelic(AbstractRelic.RelicTier.BOSS));
                 add(AbstractDungeon.returnRandomRelic(AbstractRelic.RelicTier.BOSS));
@@ -467,6 +482,10 @@ public class ArchipelagoRewardScreen {
             reward.text = "Boss Relic [] NL " + player + " [] NL " + location;
             addReward(reward);
             //ArchipelagoMW.bossRelicRewardScreen.open(bossRelics);
+        }else if (itemID == maxHealthID) { // MaxHealth
+            MaxHPreward reward = new MaxHPreward(player, location);
+            reward.text ="+" + 5 + " Max HP [] NL " + player + " [] NL " + location; //TODO or some reason this writes in 1 line
+            addReward(reward);
         }
     }
 

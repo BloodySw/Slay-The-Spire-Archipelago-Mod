@@ -187,6 +187,7 @@ public class APClient extends gg.archipelago.APClient.APClient {
 
     }
 
+
     @Override
     public void onJoinRoom() {
 
