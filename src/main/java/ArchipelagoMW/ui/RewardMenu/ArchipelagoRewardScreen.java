@@ -78,6 +78,7 @@ public class ArchipelagoRewardScreen {
     final private static long  relicID = 8002L;
     final private static long  bossRelicID = 8003L;
     final private static long  maxHealthID = 8004L;
+    final private static long  cardRemovalID = 8005L;
 
     private static OrthographicCamera camera = null;
 
@@ -216,6 +217,13 @@ public class ArchipelagoRewardScreen {
         networkItem.itemID = 8004L;
         networkItem.playerName = "PotatoPlayer";
         networkItem.locationName = "TomatoLocation";
+        addReward(networkItem);
+
+        networkItem = new NetworkItem();
+        networkItem.itemName = "Card removal reward";
+        networkItem.itemID = 8005L;
+        networkItem.playerName = "Potato2Player";
+        networkItem.locationName = "Tomato2Location";
         addReward(networkItem);
 
     }
@@ -484,7 +492,9 @@ public class ArchipelagoRewardScreen {
             //ArchipelagoMW.bossRelicRewardScreen.open(bossRelics);
         }else if (itemID == maxHealthID) { // MaxHealth
             MaxHPreward reward = new MaxHPreward(player, location);
-            reward.text ="+" + 5 + " Max HP [] NL " + player + " [] NL " + location; //TODO or some reason this writes in 1 line
+            addReward(reward);
+        }else if (itemID == cardRemovalID) { // MaxHealth
+            CardRemovalReward reward = new CardRemovalReward(player, location);
             addReward(reward);
         }
     }

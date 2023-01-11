@@ -180,14 +180,8 @@ public class ArchipelagoMW implements
         BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
         BaseMod.addTopPanelItem(new ArchipelagoIcon());
 
-        BaseMod.registerCustomReward(
-                RewardItemPatch.RewardType.ARCHIPELAGO_MAX_HP,
-                (rewardSave) -> { // this handles what to do when this quest type is loaded.
-                    return new MaxHPreward("dummy player", "dummy location");
-                },
-                (customReward) -> { // this handles what to do when this quest type is saved.
-                    return new RewardSave(customReward.type.toString(), null, ((MaxHPreward)customReward).amount, 0);
-                });
+        //BaseMod.registerCustomReward(
+       //         RewardItemPatch.RewardType.ARCHIPELAGO_MAX_HP,null,null);
         //Settings.isInfo = true;
         //Settings.isDebug = true;
 
